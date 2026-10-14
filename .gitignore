@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+*.sqlite3
+*.sqlite
+*.sqbpro
+.vscode/
+.tools/
+.composer-cache/
+db_backup_*.tgz

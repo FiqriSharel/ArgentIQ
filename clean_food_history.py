@@ -19,44 +19,73 @@ with sqlite3.connect(database) as connection:
             aggregation INTEGER NOT NULL,
             bucket_time_source TEXT NOT NULL,
             reason TEXT NOT NULL,
-            PRIMARY KEY (server, item_id, location_id, quality, aggregation, bucket_time_source)
+            PRIMARY KEY (
+                server, item_id, location_id, quality,
+                aggregation, bucket_time_source
+            )
         )
         """
     )
-    connection.executemany("""
-            INSERT OR IGNORE INTO food_history_exclusions
-            VALUES (?, ?, ?, ?, ?, ?, ?)
-        """, exclusions)
+
+    connection.executemany(
+        """
+        INSERT OR IGNORE INTO food_history_exclusions
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+        """,
+        exclusions,
+    )
 
     connection.execute(
         """
-        CREATE VIEW IF NOT EXISTS food_history_cleaned AS 
+        CREATE VIEW IF NOT EXISTS food_history_cleaned AS
         SELECT h.*
         FROM food_history AS h
         WHERE NOT EXISTS (
             SELECT 1
             FROM food_history_exclusions AS e
             WHERE e.server = h.server
-                AND e.item_id = h.item_id
-                AND e.location_id = h.location_id
-                AND e.quality = h.quality
-                AND e.aggregation = h.aggregation
-                AND e.bucket_time_source = h.bucket_time_source
+              AND e.item_id = h.item_id
+              AND e.location_id = h.location_id
+              AND e.quality = h.quality
+              AND e.aggregation = h.aggregation
+              AND e.bucket_time_source = h.bucket_time_source
         )
         """
     )
 
-    for name in ("food_history", "food_history_exclusions", "food_history_cleaned"):
+    connection.execute(
+        """
+        CREATE VIEW IF NOT EXISTS food_history_market_6h AS
+        SELECT *
+        FROM food_history_cleaned
+        WHERE server = 'Asia'
+          AND quality = 1
+          AND aggregation = 6
+          AND location_id IN (7, 1002, 2004, 3005, 3008, 4002, 5003)
+        """
+    )
+
+    for name in (
+        "food_history",
+        "food_history_exclusions",
+        "food_history_cleaned",
+        "food_history_market_6h",
+    ):
         count = connection.execute(f"SELECT COUNT(*) FROM {name}").fetchone()[0]
         print(f"{name}: {count}")
 
     print("Integrity:", connection.execute("PRAGMA integrity_check").fetchone()[0])
 
-cities = {1002: "Lymhurst", 2004: "Bridgewatch", 3008: "Martlock"}
+cities = {
+    1002: "Lymhurst",
+    2004: "Bridgewatch",
+    3008: "Martlock",
+}
 
 with sqlite3.connect(database) as connection:
     for location_id, city in cities.items():
         counts = []
+
         for table in ("food_history", "food_history_cleaned"):
             count = connection.execute(
                 f"""

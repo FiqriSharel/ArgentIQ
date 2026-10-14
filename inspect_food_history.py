@@ -27,7 +27,7 @@ for timestamp, item_amount, silver_amount, average_price in rows:
         f"silver={silver_amount:>9} | average={average_price:>8}"
     )
 
-print("\nOther locations at 2026-10-08 12:00:")
+print("\nOther locations at 2026-06-25 00:00")
 
 with sqlite3.connect(database, uri=True) as connection:
     other_locations = connection.execute(
@@ -40,8 +40,8 @@ with sqlite3.connect(database, uri=True) as connection:
         WHERE item_id = 'T8_MEAL_STEW'
             AND quality = 1
             AND aggregation = 6
-            AND bucket_time_source >= '2026-10-08 12:00'
-            AND bucket_time_source < '2026-10-08 13:00'
+            AND bucket_time_source >= '2026-06-25 18:00'
+            AND bucket_time_source < '2026-06-25 19:00'
         ORDER BY location_id
         """
     ).fetchall()

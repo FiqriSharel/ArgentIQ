@@ -6,7 +6,10 @@ exclusions = [
     ("Asia", "T8_MEAL_STEW", 2004, 1, 6, "2026-04-24 00:00:00.000000", "reviewed_isolated_high"),
     ("Asia", "T8_MEAL_STEW", 2004, 1, 6, "2026-06-25 18:00:00.000000", "reviewed_isolated_high"),
     ("Asia", "T8_MEAL_STEW", 2004, 1, 6, "2026-10-08 12:00:00.000000", "reviewed_isolated_low"),
-        ("Asia", "T5_MEAL_SOUP", 3005, 1, 6, "2026-06-07 18:00:00.000000", "reviewed_cluster_high"),
+    ("Asia", "T8_MEAL_STEW", 3008, 1, 6, "2026-04-08 00:00:00.000000", "reviewed_isolated_high"),
+    ("Asia", "T8_MEAL_STEW", 3008, 1, 6, "2026-06-30 00:00:00.000000", "reviewed_isolated_high"),
+    ("Asia", "T8_MEAL_STEW", 3008, 1, 6, "2026-07-30 00:00:00.000000", "reviewed_isolated_high"),
+    ("Asia", "T5_MEAL_SOUP", 3005, 1, 6, "2026-06-07 18:00:00.000000", "reviewed_cluster_high"),
     ("Asia", "T5_MEAL_SOUP", 3005, 1, 6, "2026-06-08 00:00:00.000000", "reviewed_cluster_high"),
     ("Asia", "T5_MEAL_SOUP", 3005, 1, 6, "2026-06-08 06:00:00.000000", "reviewed_cluster_high"),
 ]
